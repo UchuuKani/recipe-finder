@@ -6,14 +6,15 @@ class RecipeList extends Component {
   render() {
     const {recipes} = this.props
 
-    return recipes.meals ? (
+    return recipes.length ? (
       <div>
-        {recipes.meals.map(recipe => {
+        {recipes.map(recipe => {
           return (
             <RecipePreview
-              key={recipe.idMeal}
-              dishName={recipe.strMeal}
-              image={recipe.strMealThumb}
+              key={recipe.recipe_id}
+              dishName={recipe.title}
+              image={recipe.image_url}
+              originalSource={recipe.source_url}
             />
           )
         })}

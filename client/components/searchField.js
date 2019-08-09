@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+// import TextField from '@material-ui/core/TextField'
+// import Button from '@material-ui/core/Button'
 import {getRecipesThunk} from '../store/recipes'
 import RecipeList from './recipeList'
+import SearchBar from './searchBar'
 
 class SearchField extends Component {
   constructor(props) {
@@ -14,18 +15,29 @@ class SearchField extends Component {
   }
 
   handleClick = ingredients => {
-    const test = ingredients
+    this.props.fetchRecipes(ingredients)
+    this.setState({
+      ingredients: ''
+    })
+  }
 
-    this.props.fetchRecipes(test)
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
   render() {
     return (
       <div>
-        <TextField label="What's in your fridge?" />
+        {/*<TextField label="What's in your fridge?" name="ingredients" onChange={() => {this.handleChange(event)}} />
         <Button variant="contained" onClick={() => this.handleClick()}>
           Find Recipes
-        </Button>
+        </Button>*/}
+        <SearchBar
+          handleClick={() => this.handleClick(this.state.ingredients)}
+          handleChange={this.handleChange}
+        />
         <RecipeList />
       </div>
     )
