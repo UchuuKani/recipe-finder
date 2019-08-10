@@ -8,13 +8,19 @@ class RecipeList extends Component {
 
     return recipes.length ? (
       <div>
-        {recipes.map(recipe => {
+        {recipes.map((recipe, idx) => {
           return (
             <RecipePreview
-              key={recipe.recipe_id}
+              key={recipe.recipe_id ? recipe.recipe_id : idx}
               dishName={recipe.title}
-              image={recipe.image_url}
-              originalSource={recipe.source_url}
+              image={
+                recipe.image_url
+                  ? recipe.image_url
+                  : recipe.pagemap.cse_thumbnail[0].src
+              }
+              originalSource={
+                recipe.source_url ? recipe.source_url : recipe.link
+              }
             />
           )
         })}

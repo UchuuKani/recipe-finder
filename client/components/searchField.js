@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-// import TextField from '@material-ui/core/TextField'
-// import Button from '@material-ui/core/Button'
 import {getRecipesThunk} from '../store/recipes'
 import RecipeList from './recipeList'
 import SearchBar from './searchBar'
@@ -10,12 +8,13 @@ class SearchField extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ingredients: ''
+      ingredients: '',
+      searchSite: ''
     }
   }
-
+  //currently hard coded to only get google results for seriouseats
   handleClick = ingredients => {
-    this.props.fetchRecipes(ingredients)
+    this.props.fetchRecipes(ingredients, this.state.searchSite)
     this.setState({
       ingredients: ''
     })
@@ -30,13 +29,19 @@ class SearchField extends Component {
   render() {
     return (
       <div>
-        {/*<TextField label="What's in your fridge?" name="ingredients" onChange={() => {this.handleChange(event)}} />
-        <Button variant="contained" onClick={() => this.handleClick()}>
-          Find Recipes
-        </Button>*/}
+        <label>Where do you want results from?</label>
+        <select
+          value={this.state.searchSite}
+          name="searchSite"
+          onChange={() => this.handleChange(event)}
+        >
+          <option value="">Super Secret Database</option>
+          <option value="serious">SeriousEats</option>
+        </select>
         <SearchBar
           handleClick={() => this.handleClick(this.state.ingredients)}
           handleChange={this.handleChange}
+          ingredients={this.state.ingredients}
         />
         <RecipeList />
       </div>

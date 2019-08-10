@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {gapiKey, gCse, normalApiFork, throwAwayApiFork} from '../../secrets'
 
 //Action types
 const GET_RECIPES = 'GET_RECIPES'
@@ -11,25 +12,47 @@ const getRecipes = recipes => {
   }
 }
 
-export const getRecipesThunk = ingredients => {
+const errorThrower = () => {
+  const error = new Error()
+  error.message = 'No meals found for this ingredient'
+  throw error
+}
+//TODO: remove commit history that has api keys in public files
+export const getRecipesThunk = (ingredients, recipeSite) => {
   return async dispatch => {
     try {
       const ingredientList = ingredients.split(' ').join('+')
-      // const mealDBUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${testIng}`
-      //<------------protect food2Fork API key later ------------------------------->
-      const normalApiFork = 'ac0b9311a5dcf5e54c36b45d5a3d007f'
-      const throwAwayApi = '0205afdc28f8f45152304937539f4685'
-      const food2ForkUrl = `https://www.food2fork.com/api/search?key=${throwAwayApi}&q=${ingredientList}`
-      const {data} = await axios.get(food2ForkUrl)
 
-      if (!data.recipes) {
-        //if ingredient not found from api call, throw error
-        const error = new Error()
-        error.message = 'No meals found for this ingredient'
-        throw error
+      if (!ingredientList.length) errorThrower()
+
+      const food2ForkUrl = `https://www.food2fork.com/api/search?key=${throwAwayApiFork}&q=${ingredientList}`
+
+      const seriousEatsUrl = `https://www.googleapis.com/customsearch/v1?key=${gapiKey}&cx=${gCse}&q=${ingredientList}`
+
+      let res
+
+      if (!recipeSite) {
+        res = await axios.get(food2ForkUrl)
+      } else {
+        res = await axios.get(seriousEatsUrl)
       }
 
-      dispatch(getRecipes(data.recipes))
+      if (!recipeSite) {
+        if (!res.data.recipes.length) {
+          //if ingredient not found from api call, throw error
+          errorThrower()
+        }
+      } else if (recipeSite) {
+        if (res.data.items.length === 0) {
+          //if ingredient not found from api call, throw error
+          errorThrower()
+        }
+      }
+      if (res.data.recipes) {
+        dispatch(getRecipes(res.data.recipes))
+      } else {
+        dispatch(getRecipes(res.data.items))
+      }
     } catch (err) {
       console.error(err)
       alert(err.message)
@@ -45,3 +68,15 @@ export default (recipes = {}, action) => {
       return recipes
   }
 }
+
+//google json =>
+//res.data.items is an array of objects
+//a single item has:
+//link: link to recipe
+//title: name of recipe, sort of a description
+//pagemap.cse_image[0].src: full size image
+//pagemap.cse_thumbnail[0].src: thumbnail
+
+//food2fork json =>
+//res.data.recipes is an array of objects
+//

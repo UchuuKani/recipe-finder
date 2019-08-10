@@ -30,7 +30,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
             </Typography>
             <Typography variant="subtitle1" color="inherit">
               <Link to="/signup">Sign Up</Link>
-              <Link to="/">Back to Recipe Search</Link>
             </Typography>
             <Typography variant="subtitle1" color="inherit">
               <Link to="/">Back to Recipe Search</Link>

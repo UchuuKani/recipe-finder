@@ -3,15 +3,17 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 const SearchBar = props => {
-  console.log('all my props', props)
   return (
     <div>
       <TextField
-        label="What's in your fridge?"
+        label={
+          !props.serious ? "What's in your fridge?" : 'SeriousEats Results'
+        }
         name="ingredients"
         onChange={() => {
           props.handleChange(event)
         }}
+        value={props.ingredients}
       />
       <Button
         variant="contained"
