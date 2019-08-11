@@ -10,6 +10,9 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
+// const axios = require('axios')
+// const cheerio = require('cheerio')
+// const request = require('request')
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -69,6 +72,45 @@ const createApp = () => {
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
+
+  // app.get('/scrape', (req, res, next) => {
+  //   try {
+  //     const url = 'https://www.imdb.com/title/tt1229340/'
+
+  //     request(url, function(error, response, html) {
+  //       if (!error) {
+  //         const $ = cheerio.load(html)
+
+  //         let title, release, rating
+  //         let json = {title: "", release: "", rating: ""}
+
+  //         $('.header').filter(function() {
+  //           let data = $(this)
+
+  //           title = data.children().first().text()
+
+  //           release = data.children().last().children().text()
+
+  //           json.title = title
+  //           json.release = release
+  //         })
+
+  //         $('.star-box-giga-star').filter(function() {
+  //           let data = $(this)
+
+  //           rating = data.text()
+  //           json.rating = rating
+  //         })
+
+  //         console.log('what even is this json', json)
+  //       }
+  //     })
+
+  //     res.send('what is going on')
+  //   } catch(err) {
+  //     next(err)
+  //   }
+  // })
 
   // any remaining requests with an extension (.js, .css, etc.) send 404
   app.use((req, res, next) => {

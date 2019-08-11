@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {getRecipesThunk} from '../store/recipes'
 import RecipeList from './recipeList'
 import SearchBar from './searchBar'
+import RecipeField from './recipeField'
 
 class SearchField extends Component {
   constructor(props) {
@@ -38,11 +39,16 @@ class SearchField extends Component {
           <option value="">Super Secret Database</option>
           <option value="serious">SeriousEats</option>
         </select>
+        <br />
         <SearchBar
           handleClick={() => this.handleClick(this.state.ingredients)}
           handleChange={this.handleChange}
           ingredients={this.state.ingredients}
+          serious={this.state.searchSite}
         />
+        <br />
+        <RecipeField />
+        <br />
         <RecipeList />
       </div>
     )
@@ -51,8 +57,8 @@ class SearchField extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchRecipes: ingredients => {
-      dispatch(getRecipesThunk(ingredients))
+    fetchRecipes: (ingredients, recipeSite) => {
+      dispatch(getRecipesThunk(ingredients, recipeSite))
     }
   }
 }

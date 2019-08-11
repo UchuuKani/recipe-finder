@@ -6,11 +6,23 @@ import {logout} from '../store'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+
+const headerStyle = {
+  'font-family': 'Open Sans',
+  color: '#555',
+  'text-decoration': 'none',
+  'text-transform': 'uppercase',
+  position: 'center'
+}
+
+const barStyle = {
+  background: '#DCDCDC'
+}
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>Recipe Finder</h1>
-    <AppBar position="static">
+    <AppBar style={barStyle} position="static">
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
@@ -25,15 +37,24 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           {/*<Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>*/}
           <Toolbar>
-            <Typography variant="subtitle1" color="inherit">
-              <Link to="/login">Login</Link>
-            </Typography>
-            <Typography variant="subtitle1" color="inherit">
-              <Link to="/signup">Sign Up</Link>
-            </Typography>
-            <Typography variant="subtitle1" color="inherit">
-              <Link to="/">Back to Recipe Search</Link>
-            </Typography>
+            <h1 style={headerStyle}>Recipe Finder</h1>
+            <Grid container justify="center" spacing={3}>
+              <Grid item xs={2}>
+                <Typography variant="subtitle1" color="inherit">
+                  <Link to="/login">Login</Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography item variant="subtitle1" color="inherit">
+                  <Link to="/signup">Sign Up</Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography item variant="subtitle1" color="inherit">
+                  <Link to="/">Back to Recipe Search</Link>
+                </Typography>
+              </Grid>
+            </Grid>
           </Toolbar>
         </div>
       )}
