@@ -9,10 +9,10 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
 const headerStyle = {
-  'font-family': 'Open Sans',
+  fontFamily: 'Open Sans',
   color: '#555',
-  'text-decoration': 'none',
-  'text-transform': 'uppercase',
+  textDecoration: 'none',
+  textTransform: 'uppercase',
   position: 'center'
 }
 
