@@ -49,7 +49,7 @@
     "contentful": "^7.9.1",
     "express": "^4.16.4",
     "express-session": "^1.15.1",
-    "firebase-admin": "^8.6.0",
+    "firebase-admin": "^11.4.1",
     "history": "^4.9.0",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
